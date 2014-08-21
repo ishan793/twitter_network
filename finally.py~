@@ -1,0 +1,12 @@
+import json
+from application_only_auth import Client
+CONSUMER_KEY = 'dzxgD8JMD6wBqb8DiyAaP3y4i'
+CONSUMER_SECRET = 'OVi5EzU3dUTSg2Fnd4oeWYWxSF15qJ3VRLsARGw5sU2EBA79pz'
+client = Client(CONSUMER_KEY, CONSUMER_SECRET)
+status = client.rate_limit_status()
+print status['resources']['search']
+print client
+tweet = client.request('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=twitterapi&count=2')
+print json.dumps(tweet, sort_keys=True, indent=4, separators=(',', ':'))
+
+

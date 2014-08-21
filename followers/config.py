@@ -1,0 +1,5 @@
+CONSUMER_KEY = 'dzxgD8JMD6wBqb8DiyAaP3y4i'
+CONSUMER_SECRET = 'OVi5EzU3dUTSg2Fnd4oeWYWxSF15qJ3VRLsARGw5sU2EBA79pz'
+SOURCE_URL = 'https://api.twitter.com/1.1/'
+STATUS_URL = 'https://api.twitter.com/1.1/application/rate_limit_status.json?resources=friends'
+FOLLOWING_URL = 'https://api.twitter.com/1.1/friends/ids.json?stringify_ids=True&screen_name='
