@@ -10,7 +10,8 @@ def limitcheck(client):
     reset_time = int(status['resources']['friends']['/friends/ids']['reset'])
     if(request_remaining <= 1):
             current_time = int(round(time.time()))+1
-            time.sleep(abs(reset_time-current_time))
+            print 'Rate Limit exceeded....sleeping now'
+			time.sleep(abs(reset_time-current_time))
 
 def getFollowingIds(user_name):
     request_url = FOLLOWING_URL+user_name

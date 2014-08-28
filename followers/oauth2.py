@@ -7,6 +7,7 @@ try:
     # For Python 3.0 and later
     from urllib.request import urlopen, Request
     from urllib.error import HTTPError
+    from urllib.error import URLError
 except ImportError:
     # Fall back to Python 2's urllib2
     from urllib2 import urlopen, Request, HTTPError
@@ -22,7 +23,13 @@ REQUEST_RATE_LIMIT = '%s/%s/application/rate_limit_status.json' % \
 class ClientException(Exception):
     pass
 
+class NotAuthException(Exception):
+    pass
 
+class ChangeClientException(Exception):
+    pass
+class NotFoundException(Exception):
+	pass
 class Client(object):
     """This class implements the Twitter's Application-only authentication."""
 
@@ -40,8 +47,22 @@ class Client(object):
         request.add_header('Authorization', 'Bearer %s' % self.access_token)
         try:
             response = urlopen(request)
-        except HTTPError:
-            raise ClientException
+        except HTTPError, error:
+            
+            j = json.loads(error.read())
+            if ( 'error' in j):
+                if ( j['error'] == 'Not authorized.'):
+                    raise NotAuthException
+            elif (error.code == 429):
+			    raise ChangeClientException
+            elif (error.code == 404):
+                raise NotFoundException
+            else:
+                print error.code
+                print error
+                raise ClientException
+        except URLError:
+            raise NotAuthException
 
         raw_data = response.read().decode('utf-8')
         data = json.loads(raw_data)
